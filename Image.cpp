@@ -257,13 +257,95 @@ void MyImage::flipVertical() {
 
     pixels = flippedPixels;
 }
+
+// Ali did this advanced Feature which involves Rotation
 void MyImage::advancedFeature1() {
-    cout << "Advanced Feature 1" << endl;
+    cout << "Advanced Feature - Rotate 90 Degrees Clockwise" << endl;
+
+    int oldWidth = static_cast<int>(size.x);
+    int oldHeight = static_cast<int>(size.y);
+
+    // Create new vector for rotated image
+    vector<RGB> rotatedPixels;
+    rotatedPixels.resize(oldWidth * oldHeight);
+
+    // Perform rotation
+    for (int y = 0; y < oldHeight; y++) {
+        for (int x = 0; x < oldWidth; x++) {
+            int oldIndex = y * oldWidth + x;
+            // For 90° clockwise: newX = oldY, newY = oldWidth - 1 - oldX
+            int newX = oldHeight - 1 - y;
+            int newY = x;
+            int newIndex = newY * oldHeight + newX;
+            rotatedPixels[newIndex] = pixels[oldIndex];
+        }
+    }
+
+    // Swap width and height
+    size.x = static_cast<float>(oldHeight);
+    size.y = static_cast<float>(oldWidth);
+
+    pixels = rotatedPixels;
 }
+
+//Aman did this advanced feature which is cropping
 void MyImage::advancedFeature2() {
-    cout << "Advanced FEature 2" << endl;
+    cout << "Advanced Feature - Crop to Center" << endl;
+
+    int width = static_cast<int>(size.x);
+    int height = static_cast<int>(size.y);
+
+    // Crop to center 50% of the image
+    int newWidth = width / 2;
+    int newHeight = height / 2;
+    int startX = width / 4;
+    int startY = height / 4;
+
+    vector<RGB> croppedPixels;
+    croppedPixels.resize(newWidth * newHeight);
+
+    // Copy cropped area
+    for (int y = 0; y < newHeight; y++) {
+        for (int x = 0; x < newWidth; x++) {
+            int oldIndex = (startY + y) * width + (startX + x);
+            int newIndex = y * newWidth + x;
+            croppedPixels[newIndex] = pixels[oldIndex];
+        }
+    }
+
+    // Update size
+    size.x = static_cast<float>(newWidth);
+    size.y = static_cast<float>(newHeight);
+    pixels = croppedPixels;
 }
+
+// Additional Feature Applying Postereies, we did it together...
 void MyImage::advancedFeature3() {
-    cout << "Advanced Feature 3" << endl;
+    cout << "Applying Posterize Effect (4 levels)" << endl;
+
+    int levels = 4;  // Number of levels per channel
+    int step = 256 / levels;  // Size of each level
+
+    for (int i = 0; i < pixels.size(); i++) {
+        // Process each channel
+        unsigned char r = static_cast<unsigned char>(pixels[i].r);
+        unsigned char g = static_cast<unsigned char>(pixels[i].g);
+        unsigned char b = static_cast<unsigned char>(pixels[i].b);
+
+        // Quantize each channel to nearest level
+        r = static_cast<unsigned char>((r / step) * step + step/2);
+        g = static_cast<unsigned char>((g / step) * step + step/2);
+        b = static_cast<unsigned char>((b / step) * step + step/2);
+
+        // Ensure values stay in range
+        if (r > 255) r = 255;
+        if (g > 255) g = 255;
+        if (b > 255) b = 255;
+
+        pixels[i].r = static_cast<char>(r);
+        pixels[i].g = static_cast<char>(g);
+        pixels[i].b = static_cast<char>(b);
+    }
 }
+
 
