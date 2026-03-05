@@ -171,8 +171,8 @@ void MyImage::filterRed()
 {
     cout << "Filter Red" << endl;
     for (int i = 0; i < pixels.size(); i++) {
-        pixels[i].g = 0;  // Like pixel._green = 0.0 in your example
-        pixels[i].b = 0;  // Like pixel._blue = 0.0 in your example
+        pixels[i].g = 0;  // Like pixel._green = 0.0
+        pixels[i].b = 0;  // Like pixel._blue = 0.0
         // red stays the same
     }
 }
@@ -223,7 +223,7 @@ void MyImage::flipHorizontal() {
     int width = static_cast<int>(size.x);
     int height = static_cast<int>(size.y);
 
-    // Using array notation similar to your example's blackout_image_array_notation
+
     vector<RGB> flippedPixels = pixels;  // Create a copy
 
     for (int y = 0; y < height; y++) {
@@ -243,7 +243,7 @@ void MyImage::flipVertical() {
     int width = static_cast<int>(size.x);
     int height = static_cast<int>(size.y);
 
-    // Using array notation similar to your example's blackout_image_array_notation
+    
     vector<RGB> flippedPixels = pixels;
 
     for (int y = 0; y < height; y++) {
