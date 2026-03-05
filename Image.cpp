@@ -206,7 +206,7 @@ void MyImage::greyScale() {
         unsigned char g = static_cast<unsigned char>(pixels[i].g);
         unsigned char b = static_cast<unsigned char>(pixels[i].b);
 
-        // Standard grayscale formula (same as your example would use with floats)
+        // Standard grayscale formula
         unsigned char gray = static_cast<unsigned char>(
             0.299f * r + 0.587f * g + 0.114f * b
         );
@@ -243,7 +243,7 @@ void MyImage::flipVertical() {
     int width = static_cast<int>(size.x);
     int height = static_cast<int>(size.y);
 
-    
+
     vector<RGB> flippedPixels = pixels;
 
     for (int y = 0; y < height; y++) {
