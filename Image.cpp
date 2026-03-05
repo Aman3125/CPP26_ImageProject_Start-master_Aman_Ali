@@ -3,9 +3,9 @@
 //
 
 #include "Image.h"
-
 #include <iostream>
 
+using namespace std;
 /**
  * This function creates the image object, and then loads in the image from the given filename.
  *
@@ -169,31 +169,93 @@ void MyImage::save()
 
 void MyImage::filterRed()
 {
-   cout << "Filter Red" << endl;
-
-    for (auto &p : pixels)
-    {
-        p.g = 0;
-        p.b = 0;
+    cout << "Filter Red" << endl;
+    for (int i = 0; i < pixels.size(); i++) {
+        pixels[i].g = 0;  // Like pixel._green = 0.0 in your example
+        pixels[i].b = 0;  // Like pixel._blue = 0.0 in your example
+        // red stays the same
     }
-
 }
+
 void MyImage::filterGreen() {
     cout << "Filter Green" << endl;
+    // Set red and blue to 0, keep green
+    for (int i = 0; i < pixels.size(); i++) {
+        pixels[i].r = 0;
+        pixels[i].b = 0;
+        // green stays the same
+    }
 }
+
 void MyImage::filterBlue() {
     cout << "Filter Blue" << endl;
+    // Set red and green to 0, keep blue
+    for (int i = 0; i < pixels.size(); i++) {
+        pixels[i].r = 0;
+        pixels[i].g = 0;
+        // blue stays the same
+    }
 }
 
 void MyImage::greyScale() {
     cout << "Filter Greyscale" << endl;
+    // Convert to grayscale - similar concept but with 0-255 values
+    for (int i = 0; i < pixels.size(); i++) {
+        // Convert char to unsigned char for math (0-255 range)
+        unsigned char r = static_cast<unsigned char>(pixels[i].r);
+        unsigned char g = static_cast<unsigned char>(pixels[i].g);
+        unsigned char b = static_cast<unsigned char>(pixels[i].b);
+
+        // Standard grayscale formula (same as your example would use with floats)
+        unsigned char gray = static_cast<unsigned char>(
+            0.299f * r + 0.587f * g + 0.114f * b
+        );
+
+        // Set all channels to the same value (like making all RGB equal)
+        pixels[i].r = static_cast<char>(gray);
+        pixels[i].g = static_cast<char>(gray);
+        pixels[i].b = static_cast<char>(gray);
+    }
 }
 
 void MyImage::flipHorizontal() {
     cout << "Flip Horizontal" << endl;
+    int width = static_cast<int>(size.x);
+    int height = static_cast<int>(size.y);
+
+    // Using array notation similar to your example's blackout_image_array_notation
+    vector<RGB> flippedPixels = pixels;  // Create a copy
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int originalIndex = y * width + x;
+            int flippedIndex = y * width + (width - 1 - x);
+            // Swap pixels horizontally
+            flippedPixels[flippedIndex] = pixels[originalIndex];
+        }
+    }
+
+    pixels = flippedPixels;
 }
+
 void MyImage::flipVertical() {
     cout << "Flip Vertical" << endl;
+    int width = static_cast<int>(size.x);
+    int height = static_cast<int>(size.y);
+
+    // Using array notation similar to your example's blackout_image_array_notation
+    vector<RGB> flippedPixels = pixels;
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int originalIndex = y * width + x;
+            int flippedIndex = (height - 1 - y) * width + x;
+            // Swap pixels vertically
+            flippedPixels[flippedIndex] = pixels[originalIndex];
+        }
+    }
+
+    pixels = flippedPixels;
 }
 void MyImage::advancedFeature1() {
     cout << "Advanced Feature 1" << endl;
